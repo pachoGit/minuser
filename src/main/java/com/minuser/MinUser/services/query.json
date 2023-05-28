@@ -1,0 +1,6 @@
+{
+    "id": [1, 2, 3],
+    "name": "nameForSearch",
+    "limit": 10,
+    "page": 2
+}
