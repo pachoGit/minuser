@@ -1,6 +1,9 @@
 package com.minuser.MinUser.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.minuser.MinUser.entities.JobEntity;
+import com.minuser.MinUser.entities.UserEntity;
+import com.minuser.MinUser.models.Validators.ExistsInTable;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -24,22 +27,25 @@ public class UserEntityCreateRequest
     private String lastname;
 
     @NotEmpty(message = "The field document is required")
-    @Size(max = 8, message = "The field lastname must be less than 8 digits")
+    @Size(max = 8, message = "The field document must be 8 digits")
+    @Size(min = 8, message = "The field document must be 8 digits")
     @Pattern(regexp = "^[0-9]+$", message = "The field lastname only accepts digits")
     private String document;
 
     @NotEmpty(message = "The field phone is required")
-    @Size(max = 9, message = "The field phone must be less than 9 digits")
+    @Size(max = 9, message = "The field phone must be 9 digits")
+    @Size(min = 9, message = "The field phone must be 9 digits")
     @Pattern(regexp = "9[0-9]*", message = "The field phone only accepts digits and starts with 9")
     private String phone;
 
     @NotEmpty(message = "The field email is required")
-    @Size(max = 70, message = "The field phone must be less than 70 characters")
+    @Size(max = 70, message = "The field email must be less than 70 characters")
     @Pattern(regexp = "^[a-zA-Z0-9_.]+@herlyncarlos\\.com\\.pe$", message = "The field email only accepts alphanumeric, underscore and end with @herlyncarlos.com.pe")
     private String email;
 
     @JsonProperty("id_job")
     @Positive(message = "The field id_job is a number required")
+    @ExistsInTable(entityClass = JobEntity.class, column = "id", message = "The job does not exist")
     private Long idJob;
 
     public UserEntityCreateRequest() {}

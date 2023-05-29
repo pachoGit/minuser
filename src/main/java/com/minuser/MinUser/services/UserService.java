@@ -51,13 +51,13 @@ public class UserService
             userEntity.setEmail(request.getEmail());
             Optional<JobEntity> jobEntity = this.jobRepository.findById(request.getIdJob());
             if (jobEntity.isEmpty()) {
-                throw new Exception("Invalid job ID");
+                throw new RuntimeException("Invalid job ID");
             }
             userEntity.setJob(jobEntity.get());
             return this.userRepository.save(userEntity);
         }
         catch (Exception e) {
-            throw new RuntimeException("Failed to create user", e);
+            throw e;
         }
     }
 
