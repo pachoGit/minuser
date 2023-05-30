@@ -12,6 +12,7 @@ import com.minuser.MinUser.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,26 +41,28 @@ public class UserController
     @PostMapping()
     public @ResponseBody ResponseEntity<ResponseEstandar<UserEntity>> create(@Valid @RequestBody UserEntityCreateRequest request)
     {
+        ResponseEstandar<UserEntity> response = null;
         try {
             UserEntity userEntity = this.userService.create(request);
-            ResponseEstandar<UserEntity> response = new ResponseEstandar<UserEntity>(200, "success", "User created", userEntity);
-            return ResponseEntity.ok(response);
+            response = new ResponseEstandar<UserEntity>(HttpStatus.CREATED.value(), "success", "User created", userEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }
         catch (Exception e) {
-            throw e;
+            response = new ResponseEstandar<UserEntity>(HttpStatus.UNPROCESSABLE_ENTITY.value(), "failed", "User not created", null);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(response);
         }
     }
 
     @GetMapping(path = "/show")
     public @ResponseBody ResponseEntity<ResponseEstandar<UserEntity>> show(@RequestParam Long id) {
         Optional<UserEntity> userEntity = this.userService.show(id);
+        ResponseEstandar<UserEntity> response = null;
         if (userEntity.isPresent()) {
-            ResponseEstandar<UserEntity> response = new ResponseEstandar<UserEntity>(200, "success", "User found", userEntity.get());
+            response = new ResponseEstandar<UserEntity>(200, "success", "User found", userEntity.get());
             return ResponseEntity.ok(response);
         }
-        else {
-            return ResponseEntity.notFound().build();
-        }
+        response = new ResponseEstandar<UserEntity>(HttpStatus.NOT_FOUND.value(), "failed", "User not found", null);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @GetMapping(path = "/get")

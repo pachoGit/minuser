@@ -2,7 +2,6 @@ package com.minuser.MinUser.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minuser.MinUser.entities.JobEntity;
-import com.minuser.MinUser.entities.UserEntity;
 import com.minuser.MinUser.models.Validators.ExistsInTable;
 
 import jakarta.validation.constraints.NotEmpty;
