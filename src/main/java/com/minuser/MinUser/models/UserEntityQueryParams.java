@@ -11,6 +11,7 @@ public record UserEntityQueryParams(List<Long> id,
                                  String lastname,
                                  String document,
                                  String phone,
+                                 String sort,
                                  String email) {
 
 }

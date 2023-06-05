@@ -63,4 +63,16 @@ public class UserSpecifications
         };
     }
 
+    // NOTE: Sort only by two fields
+    public static Specification<UserEntity> bySort(String sort)
+    {
+        return  (root, query, builder) -> {
+            if (sort != null) {
+                return query.orderBy(builder.desc(root.get(sort)), builder.desc(root.get("updatedAt"))).getRestriction();
+            }
+            else {
+                return query.orderBy(builder.desc(root.get("updatedAt"))).getRestriction();
+            }
+        };
+    }
 }

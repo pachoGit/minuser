@@ -28,7 +28,6 @@ public class JobEntity
 
     @ManyToOne
     @JoinColumn(name = "id_work_area")
-    @JsonIgnore
     private WorkAreaEntity workArea;
 
     @OneToMany(mappedBy = "job")

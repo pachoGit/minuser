@@ -13,10 +13,10 @@ import jakarta.validation.Payload;
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ExistsInTableValidator.class)
-public @interface ExistsInTable
+@Constraint(validatedBy = NotExistsInTableValidator.class)
+public @interface NotExistsInTable
 {
-    String message() default "The register does not exist";
+    String message() default "The register already exists";
 
     Class<?>[] groups() default {};
 

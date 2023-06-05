@@ -1,6 +1,5 @@
 package com.minuser.MinUser.services;
 
-import java.util.Map;
 import java.util.Optional;
 
 import com.minuser.MinUser.entities.JobEntity;
@@ -147,6 +146,8 @@ public class UserService
         if (queryParams.email() != null && !queryParams.email().equals("")) {
             specification = specification.and(UserSpecifications.byEmail(queryParams.email()));
         }
+
+        specification = specification.and(UserSpecifications.bySort(queryParams.sort()));
 
         return specification;
     }
