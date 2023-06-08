@@ -79,7 +79,7 @@ public class DatabaseSeeder
     {
         return (args) -> {
             for (JobEntity jobEntity : this.jobRepository.findAll()) {
-                this.userRepository.save(new UserEntity("Herlyn Carlos", "Paz Vasquez", "71700578", "927315110", "carlos.hcvp@herlyncarlos.com.pe", jobEntity));
+                this.userRepository.save(new UserEntity("Herlyn Carlos", "Paz Vasquez", "71700578", "927315110", "carlos.hcvp@herlyncarlos.com.pe", 1, jobEntity));
             }
 
             log.info("Usuarios...");

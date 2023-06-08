@@ -3,8 +3,6 @@ package com.minuser.MinUser.entities;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-//import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -62,6 +60,10 @@ public class UserEntity
     @Pattern(regexp = "^[a-zA-Z0-9_.]+@herlyncarlos\\.com\\.pe$", message = "The field email only accepts alphanumeric, underscore and end with @herlyncarlos.com.pe")
     private String email;
 
+    @Column(columnDefinition = "tinyint default 1")
+    @NotNull(message = "The field status is not must be null")
+    private int status;
+
     @Column(name = "created_at")
     @CreationTimestamp
     @JsonProperty("created_at")
@@ -82,13 +84,14 @@ public class UserEntity
 
     public UserEntity() { }
 
-    public UserEntity(String name, String lastname, String document, String phone, String email, JobEntity job)
+    public UserEntity(String name, String lastname, String document, String phone, String email, int status, JobEntity job)
     {
         this.name = name;
         this.lastname = lastname;
         this.document = document;
         this.phone = phone;
         this.email = email;
+        this.status = status;
         this.job = job;
     }
 
@@ -122,15 +125,23 @@ public class UserEntity
         return this.email;
     }
 
-    public JobEntity getJob() {
+    public JobEntity getJob()
+    {
         return job;
     }
 
-    public Timestamp getCreatedAt() {
+    public int getStatus()
+    {
+        return status;
+    }
+
+    public Timestamp getCreatedAt()
+    {
         return createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
+    public Timestamp getUpdatedAt()
+    {
         return updatedAt;
     }
 
@@ -164,6 +175,11 @@ public class UserEntity
         this.job = job;
     }
 
+    public void setStatus(int status)
+    {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object other)
     {
@@ -180,6 +196,7 @@ public class UserEntity
                 Objects.equals(document, userEntity.document) &&
                 Objects.equals(phone, userEntity.phone) &&
                 Objects.equals(email, userEntity.email) &&
+                Objects.equals(status, userEntity.status) &&
                 Objects.equals(job, userEntity.job);
         }
     }
@@ -187,6 +204,6 @@ public class UserEntity
     @Override
     public String toString()
     {
-        return "User { " + "id=" + this.id + " name=" + this.name + " lastname=" + this.lastname + " document=" + this.document + " phone=" + this.phone + " email=" + this.email + " " + this.job.toString();
+        return "User { " + "id=" + this.id + " name=" + this.name + " lastname=" + this.lastname + " document=" + this.document + " phone=" + this.phone + " email=" + this.email + " status=" + this.status + " " + this.job.toString();
     }
 }

@@ -83,10 +83,10 @@ public class UserService
             Optional<UserEntity> userEntity = this.userRepository.findById(request.getId());
             Optional<JobEntity> jobEntity = this.jobRepository.findById(request.getIdJob());
             if (userEntity.isEmpty()) {
-                throw new Exception("No existe el id de usuario");
+                throw new RuntimeException("No existe el id de usuario");
             }
             if (jobEntity.isEmpty()) {
-                throw new Exception("No existe el id del trabajo");
+                throw new RuntimeException("No existe el id del trabajo");
             }
             UserEntity user = userEntity.get();
             user.setName(request.getName());
@@ -99,9 +99,8 @@ public class UserService
             return user;
         }
         catch (Exception e) {
-            throw new RuntimeException("Failed to edit user", e);
+            throw e;
         }
-
     }
 
     public void delete()
