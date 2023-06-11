@@ -69,7 +69,7 @@ public class UserController
     public @ResponseBody ResponseEntity<ResponseEstandar<Iterable<UserEntity>>> get(@ModelAttribute UserEntityQueryParams queryParams)
     {
         Iterable<UserEntity> users = this.userService.get(queryParams);
-        var response = new ResponseEstandar<Iterable<UserEntity>>(200, "success", "List of users", users);
+        var response = new ResponseEstandar<Iterable<UserEntity>>(HttpStatus.OK.value(), "success", "List of users", users);
         return ResponseEntity.ok(response);
     }
 
@@ -77,19 +77,21 @@ public class UserController
     public @ResponseBody ResponseEntity<ResponseEstandar<Page<UserEntity>>> list(@ModelAttribute UserEntityQueryParams queryParams, Pageable pageable)
     {
         Page<UserEntity> users = this.userService.list(queryParams, pageable);
-        var response = new ResponseEstandar<Page<UserEntity>>(200, "success", "List paginate of users", users);
+        var response = new ResponseEstandar<Page<UserEntity>>(HttpStatus.OK.value(), "success", "List paginate of users", users);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping()
     public @ResponseBody ResponseEntity<ResponseEstandar<UserEntity>> update(@Valid @RequestBody UserEntityUpdateRequest request) {
+        ResponseEstandar<UserEntity> response = null;
         try {
             UserEntity userEntity = this.userService.update(request);
-            ResponseEstandar<UserEntity> response = new ResponseEstandar<UserEntity>(200, "success", "User updated", userEntity);
+            response = new ResponseEstandar<UserEntity>(HttpStatus.OK.value(), "success", "User updated", userEntity);
             return ResponseEntity.ok(response);
         }
         catch (Exception e) {
-            throw e;
+            response = new ResponseEstandar<UserEntity>(HttpStatus.UNPROCESSABLE_ENTITY.value(), "failed", "User not updated", null);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(response);
         }
 
     }
