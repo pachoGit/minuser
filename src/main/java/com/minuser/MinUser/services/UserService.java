@@ -35,6 +35,12 @@ public class UserService {
     this.jobRepository = jobRepository;
   }
 
+  /**
+   * Save the new user
+   *
+   * @param request - The request with the data of the new user
+   * @return - The new user
+   */
   public UserEntity create(UserEntityCreateRequest request) {
     try {
       UserEntity userEntity = new UserEntity();
@@ -56,21 +62,46 @@ public class UserService {
     }
   }
 
+  /**
+   * Get the user
+   *
+   * @param id - Id of the user
+   * @return the user with the given id or `optional empty`
+   */
   public Optional<UserEntity> show(Long id) {
     return this.userRepository.findById(id);
   }
 
+  /**
+   * Get a list without user paging
+   *
+   * @param queryParams - Query params with the search rules
+   * @return the list of user
+   */
   public Iterable<UserEntity> get(UserEntityQueryParams queryParams) {
     Specification<UserEntity> specification = this.filter(queryParams);
     return this.userRepository.findAll(specification);
   }
 
+  /**
+   * Get a list with user paging
+   *
+   * @param queryParams - Query params with the search rules
+   * @param pageable - Query param with the paging rules
+   * @return the list of user
+   */
   public Page<UserEntity> list(UserEntityQueryParams queryParams,
                                Pageable pageable) {
     Specification<UserEntity> specification = this.filter(queryParams);
     return this.userRepository.findAll(specification, pageable);
   }
 
+  /**
+   * Update a user
+   *
+   * @param request - The request with the data of the user for update
+   * @return - The updated user
+   */
   public UserEntity update(UserEntityUpdateRequest request) {
     try {
       Optional<UserEntity> userEntity =
@@ -97,6 +128,12 @@ public class UserService {
     }
   }
 
+  /**
+   * Delete a user
+   *
+   * @param id - The id of the user
+   * @return void
+   */
   public void delete(Long id) {
     try {
       this.userRepository.deleteById(id);
@@ -105,6 +142,12 @@ public class UserService {
     }
   }
 
+  /**
+   * Get a `Specification` applying the search rules
+   *
+   * @param queryParams The search rules
+   * @return The `Specification` with search rules of users
+   */
   private Specification<UserEntity> filter(UserEntityQueryParams queryParams) {
     Specification<UserEntity> specification = Specification.where(null);
     if (queryParams == null) {
